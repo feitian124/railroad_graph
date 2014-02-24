@@ -12,12 +12,4 @@ describe Graph do
     graph.to_s.should include("{", "=>", "}")
   end
 
-  it "should get the right distance" do
-    graph.distance("").should == 0
-    graph.distance("A").should == 0
-    graph.distance("AB").should == 5
-    graph.distance("ABC").should == 9
-    graph.distance("ABCD").should == 17
-    graph.distance("ABCE").should == 11
-  end
 end
