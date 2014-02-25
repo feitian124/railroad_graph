@@ -9,8 +9,8 @@ describe Route do
   end
 
   it "should have nice out put" do
-    route.to_s.should include("A--1--B")
-    route.push(Edge.new("B","C",2)).to_s.should include("A--1--B B--2--C")
+    route.to_s.should include("AB1")
+    route.push(Edge.new("B","C",2)).to_s.should include("AB1 BC2")
   end
 
   it "should get the right distance" do

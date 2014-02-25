@@ -4,21 +4,21 @@ module RailroadGraph
     attr_accessor :from
     attr_accessor :to
     attr_accessor :length
+    attr_accessor :sibling
 
     def initialize(from, to, length)
       @from = from
       @to = to
       @length = length
-      @next = nil
+      @sibling = nil
     end
 
-    def next(edge)
-      @next = edge
-      self
+    def has_sibling?
+      !@sibling.nil?
     end
 
     def to_s
-      "#{from}--#{length}--#{to}"
+      "#{from.to_s}#{to.to_s}#{length}"
     end
   end
 

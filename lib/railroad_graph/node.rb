@@ -16,5 +16,9 @@ module RailroadGraph
     def eql?(other)
        self == other
     end
+
+    def to_s
+      @name
+    end
   end
 end
