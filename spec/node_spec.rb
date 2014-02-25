@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Node do
 
   let(:node) { Node.new("A") }
+  let(:a) { Node.new("A") }
 
   it "should can be created" do
     node.should be_instance_of Node
@@ -15,4 +16,11 @@ describe Node do
       Node.new("A").should_not eql(Node.new("B"))
   end
 
+  it "should work as hash key" do
+      puts a
+      puts node
+      h = {}
+      h[a] = "abc"
+      h.has_key?(node).should be_true
+  end
 end

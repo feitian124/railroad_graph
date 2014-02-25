@@ -17,8 +17,16 @@ module RailroadGraph
        self == other
     end
 
+    def hash
+      @name.hash ^ @visited.hash
+    end
+
     def to_s
       @name
+    end
+
+    def to_str
+      to_s
     end
   end
 end

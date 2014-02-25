@@ -20,6 +20,10 @@ module RailroadGraph
     def to_s
       "#{from.to_s}#{to.to_s}#{length}"
     end
+
+    def to_str
+      to_s
+    end
   end
 
 end

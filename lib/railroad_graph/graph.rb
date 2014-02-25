@@ -2,6 +2,8 @@ module RailroadGraph
 
   class Graph
     # change the text based graph to hash based which more easy to operate
+    # the node is as key, one direct connected edge as value, and all other direct connected edges
+    # are as the edge's siblings.
     def initialize(txt_graph)
       @graph = { }
       txt_graph.scan(/\w\w\d+/).each do |x|
@@ -22,21 +24,23 @@ module RailroadGraph
       end
     end
 
-   # def to_s
-   #   result=""
-   #   @graph.each do |k, v|
-   #     row ="#{k}-["
-   #     row += "#{v.to_s}"
-   #     tmp = v
-   #     while tmp.has_sibling?
-   #       tmp = tmp.sibling
-   #       row += " #{tmp.to_s}"
-   #     end
-   #     row += "]\n"
-   #     result += row
-   #   end
-   #   result
-   # end
+    def nodes
+      @graph.keys
+    end
+
+    def to_s
+      result=""
+      @graph.each do |k, v|
+        row = "#{k}-[#{v}"
+        while v.has_sibling?
+          v = v.sibling
+          row += " #{v}"
+        end
+        row += "]\n"
+        result += row
+      end
+      result
+    end
   end
 
 end
