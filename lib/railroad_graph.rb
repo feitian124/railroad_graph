@@ -1,3 +1,5 @@
 require "railroad_graph/version"
+require "railroad_graph/node"
+require "railroad_graph/edge"
+require "railroad_graph/route"
 require "railroad_graph/graph"
-
