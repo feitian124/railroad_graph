@@ -1,7 +1,7 @@
 # RailroadGraph
 this gem resolve below problem.
 
- Problem:
+**Problem:**
    The local commuter railroad services a number of towns in Kiwiland.
    Because of monetary concerns, all of the tracks are 'one-way'.
    That is, a route from Kaitaia to Invercargill does not imply the existence of
@@ -13,13 +13,13 @@ this gem resolve below problem.
    a certain route, the number of different routes between two towns, and the shortest
    route between two towns.
 
- Input:
+ **Input:**
    A directed graph where a node represents a town and an edge represents a route
    between two towns.  The weighting of the edge represents the distance between
    the two towns.  A given route will never appear more than once, and for a given route,
    the starting and ending town willnot be the same town.
 
- Output:
+ **Output:**
    For test input 1 through 5, if no such route exists, output 'NO SUCH ROUTE'.
    Otherwise, follow the route as given; do not make any extra stops!
    For example, the first problem means to start at city A, then travel directly
@@ -40,13 +40,13 @@ this gem resolve below problem.
  10. The number of different routes from C to C with a distance of less than 30.
      In the sample data, the trips are: CDC, CEBC, CEBCDC, CDCEBC, CDEBC, CEBCEBC, CEBCEBCEBC.
 
- Test Input:
+ **Test Input:**
    For the test input, the towns are named using the first few letters of the alphabet from A to E.
    A route between two towns (A to B) with a distance of 5 is represented as AB5.
 
- Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
+   Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
 
- Expected Output:
+ **Expected Output:**
 
          Output #1: 9
          Output #2: 5
@@ -58,6 +58,11 @@ this gem resolve below problem.
          Output #8: 9
          Output #9: 9
          Output #10: 7
+
+## solution
+This is a directed and weighted graph problem. The two most common ways to implement this would be an adjacency matrix and an adjacency list. As this problem isn’t very complex, the the adjacency matrix would be iterating over a lot of empty cells at O(|V|^2)  time. So for a sparse graph like this one, an adjacency list is better in terms of both, space and lookup/traversal times. Traversal in the adjacency list could be done at O(|V| + |E|) time, where V = # of Vertices, and E = # of edges.
+
+---------------------------------------
 
 ## Installation
 

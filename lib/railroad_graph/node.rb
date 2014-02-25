@@ -1,6 +1,6 @@
 module RailroadGraph
 
-  class Graph
+  class Node
     # change the text based graph to hash based which more easy operate
     # example: AB5, BC1,AC3 -> {"A"=>{"B"=>5,"C"=>3}, "B"=>{"C"=>1}
     def initialize(txt_graph)
