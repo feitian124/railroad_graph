@@ -17,8 +17,6 @@ describe Node do
   end
 
   it "should work as hash key" do
-      puts a
-      puts node
       h = {}
       ob = Object.new
       h[a] = ob

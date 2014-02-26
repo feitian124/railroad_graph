@@ -34,11 +34,7 @@ module RailroadGraph
       curr_edge = @graph[a]
       while curr_edge
         return true if curr_edge.to == b
-        if curr_edge.has_sibling?
-          curr_edge = curr_edge.sibling
-        else
-          break
-        end
+        curr_edge = curr_edge.sibling
       end
       false
     end
@@ -49,11 +45,7 @@ module RailroadGraph
       curr_edge = @graph[a]
       while curr_edge
         return curr_edge.length if curr_edge.to == b
-        if curr_edge.has_sibling?
-          curr_edge = curr_edge.sibling
-        else
-          break
-        end
+        curr_edge = curr_edge.sibling
       end
       raise "NO SUCH ROUTE"
     end
@@ -70,42 +62,37 @@ module RailroadGraph
     end
 
     # use Depth-First-Search to find all routes
-    def find_routes(from, to, depth, limit, route=nil)
+    def find_routes(from, to, depth, limit)
       raise "NO SUCH ROUTE" unless has_node?(from) && has_node?(to)
-      routes = []
-      # the route of current recursive stack level
+      # If start node exists then traverse all possible
+      # routes and for each, check if it is destination
+      routes = 0
       depth += 1
-      return [] if depth > limit
+      return 0 if depth > limit
       from.visited = true
-      puts "from:#{from.inspect}"
       curr_edge = first_edge(from)
-      puts "---------#{curr_edge.inspect}"
+      route = Route.new unless route
       while curr_edge #for all siblings
         if curr_edge.to == to #find the route
-          if route
-            route.push curr_edge.clone
-          else
-            route = Route.new.push curr_edge.clone
-          end
-          puts "---------#{route}"
-          routes.push route
+          routes += 1
+          curr_edge = curr_edge.sibling
           next
         elsif !curr_edge.to.visited
-          routes += find_routes(curr_edge.to, to, depth, limit, route)
+          routes += find_routes(curr_edge.to, to, depth, limit)
           depth -= 1
         end
-
-        if curr_edge.has_sibling?
-          curr_edge = curr_edge.sibling
-        else
-          break
-        end
+        curr_edge = curr_edge.sibling
       end
 
       # mark the start node as visited as sibling need traverse also
       from.visited = false
       return routes
     end
+
+    def route_num_by_stops(from, to, max)
+      find_routes(from, to, 0, max)
+    end
+
 
     # get all nodes of the graph
     def nodes

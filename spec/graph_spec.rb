@@ -38,13 +38,14 @@ describe Graph do
 
   it "can get distance for given nodes" do
     graph.distance([a, b, c]).should == 9
-    graph.distance([b, c, d]).should == 12
-    expect{ graph.distance([a, b, d]) }.to raise_error(StandardError, 'NO SUCH ROUTE')
+    graph.distance([a, d]).should == 5
+    graph.distance([a, d, c]).should == 13
+    graph.distance([a, e, b, c, d]).should == 22
+    expect{ graph.distance([a, e, d]) }.to raise_error(StandardError, 'NO SUCH ROUTE')
   end
 
   it "can get all routes" do
-    graph.find_routes(a, b, 0, 10).size.should == 1
-    graph.find_routes(a, d, 0, 10).size.should == 2
+    graph.find_routes(a, b, 0, 10).should == 5
   end
 
   it "can get the first edge of nodes" do
@@ -54,5 +55,14 @@ describe Graph do
     graph.first_edge(d).should == dc
     graph.first_edge(e).should == eb
     graph.first_edge(a).should_not == bc
+  end
+
+  it "shoud have sibling" do
+    graph.first_edge(a).sibling.should == ad
+  end
+
+  it "get the number of trips given stops limit" do
+    graph.find_routes(c, c, 0, 3).should == 2
+    graph.find_routes(a, c, 0, 4).should == 4
   end
 end
