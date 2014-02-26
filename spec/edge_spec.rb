@@ -16,4 +16,9 @@ describe Edge do
     edge.sibling = Edge.new(Node.new("A"), Node.new("c"), 2)
     edge.sibling.should be_instance_of Edge
   end
+
+  it "can clone" do
+    edge.clone.should == edge
+    edge.clone.object_id.should_not == edge.object_id
+  end
 end

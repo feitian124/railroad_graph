@@ -17,12 +17,20 @@ module RailroadGraph
       !@sibling.nil?
     end
 
+    def ==(other)
+      @from == other.from && @to == other.to && @length == other.length && @sibling == other.sibling
+    end
+
     def to_s
       "#{from.to_s}#{to.to_s}#{length}"
     end
 
     def to_str
       to_s
+    end
+
+    def clone
+      Edge.new(@from, @to, @length)
     end
   end
 
