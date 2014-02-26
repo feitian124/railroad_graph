@@ -27,21 +27,12 @@ describe Graph do
 
   it "should have nice out put" do
     graph.to_s.should include("[", "]")
-    puts graph
   end
 
   it "can get distance between 2 nodes" do
     graph.distance_between(a, b).should == 5
     graph.distance_between(d, c).should == 8
     expect{ graph.distance_between(a, c) }.to raise_error(StandardError, 'NO SUCH ROUTE')
-  end
-
-  it "can get distance for given nodes" do
-    graph.distance([a, b, c]).should == 9
-    graph.distance([a, d]).should == 5
-    graph.distance([a, d, c]).should == 13
-    graph.distance([a, e, b, c, d]).should == 22
-    expect{ graph.distance([a, e, d]) }.to raise_error(StandardError, 'NO SUCH ROUTE')
   end
 
   it "can get all routes" do
@@ -61,17 +52,25 @@ describe Graph do
     graph.first_edge(a).sibling.should == ad
   end
 
-  it "get the number of trips given stops limit" do
+  it "(question #1-5)can get distance for given nodes" do
+    graph.distance([a, b, c]).should == 9
+    graph.distance([a, d]).should == 5
+    graph.distance([a, d, c]).should == 13
+    graph.distance([a, e, b, c, d]).should == 22
+    expect{ graph.distance([a, e, d]) }.to raise_error(StandardError, 'NO SUCH ROUTE')
+  end
+
+  it "(question #6-7)get the number of trips given stops limit" do
     graph.find_routes(c, c, 0, 3).should == 2
     graph.find_routes(a, c, 0, 4).should == 4
   end
 
-  it "get the length of shortest routes" do
+  it "(question #8-9)get the length of shortest routes" do
     graph.shortest_route(a, c, 0, 0).should == 9
     graph.shortest_route(b, b, 0, 0).should == 9
   end
 
-  it "get the num of routes for less than some distance" do
+  it "(question #10 )get the num of routes for less than some distance" do
     graph.routes_within_stops(c, c, 0, 30).should == 7
   end
 end
