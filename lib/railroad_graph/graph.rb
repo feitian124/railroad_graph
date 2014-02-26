@@ -25,16 +25,16 @@ module RailroadGraph
     end
 
     #search graph find if there are edge between two nodes
-    #def has_edge_between?(a, b)
-    #  return false unless has_node?(a) && has_node?(b)
-    #  curr_edge = @graph[a]
-    #  loop do
-    #    return true if curr_edge.to == b
-    #    curr_edge = curr_edge.sibling
-    #    break unless curr_edge.has_sibling?
-    #  end 
-    #  false
-    #end
+    def has_edge_between?(a, b)
+      return false unless has_node?(a) && has_node?(b)
+      curr_edge = @graph[a]
+      loop do
+        return true if curr_edge.to == b
+        curr_edge = curr_edge.sibling
+        break unless curr_edge.has_sibling?
+      end 
+      false
+    end
 
     # get distance between the 2 directly connected nodes
     def distance_between(a, b)
@@ -59,32 +59,48 @@ module RailroadGraph
       return len  
     end
 
+    # use Depth-First-Search to find all routes
     def find_routes(from, to, depth, limit)
       raise "NO SUCH ROUTE" unless has_node?(from) && has_node?(to)
-      # the routes of current recursive stack level, the graph's routes
-      # is determined by the minimum recursive stack levels
-      routes = 0
+      routes = []
+      # the route of current recursive stack level
+      rote = nil
       depth += 1
-      return 0 if depth > limit
+      return nil if depth > limit
       from.visited = true
       curr_edge = @graph[from]
+
       while curr_edge
+        if route
+          if curr_edge.to == to
+            route.push curr_edge.clone
+            routes.push route
+            return routes
+          elsif @graph[curr_edge.to] && !curr_edge.to.visited
+            find_routes(curr_edge.to, to, depth, limit)
+
+          end
+          routes.push route
+        elsif curr_edge.to == to
+
+
+        route = curr_edge.clone
         # If destination matches increment route count, then continue to next node at same depth
         if curr_edge.to == to
-          routes += 1
+          route_cnt += 1
           curr_edge = curr_edge.sibling
           continue
         # If destination does not match and has not yet been visited, 
         # we recursively traverse destination node 
         elsif !curr_edge.to.visited
-          routes += find_routes(edge.to, to, depth, limit);
+          route_cnt += find_routes(edge.to, to, depth, limit);
           depth--;
         end
         curr_edge = curr_edge.sibling
       end
       # mark the start node as visited as sibling need traverse also 
       from.visited = false
-      routes
+      route_cnt
     end
 
     # get all nodes of the graph
