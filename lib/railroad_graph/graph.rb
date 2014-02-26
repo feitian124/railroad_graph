@@ -89,7 +89,7 @@ module RailroadGraph
           end
           puts "---------#{route}"
           routes.push route
-          continue
+          next
         elsif !curr_edge.to.visited
           routes += find_routes(curr_edge.to, to, depth, limit, route)
           depth -= 1
