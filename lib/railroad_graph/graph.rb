@@ -28,11 +28,14 @@ module RailroadGraph
     def has_edge_between?(a, b)
       return false unless has_node?(a) && has_node?(b)
       curr_edge = @graph[a]
-      loop do
+      while curr_edge
         return true if curr_edge.to == b
-        curr_edge = curr_edge.sibling
-        break unless curr_edge.has_sibling?
-      end 
+        if curr_edge.has_sibling?
+          curr_edge = curr_edge.sibling
+        else
+          break
+        end
+      end
       false
     end
 
@@ -40,11 +43,14 @@ module RailroadGraph
     def distance_between(a, b)
       raise "NO SUCH ROUTE" unless has_node?(a) && has_node?(b)
       curr_edge = @graph[a]
-      loop do
+      while curr_edge
         return curr_edge.length if curr_edge.to == b
-        curr_edge = curr_edge.sibling
-        break unless curr_edge.has_sibling?
-      end 
+        if curr_edge.has_sibling?
+          curr_edge = curr_edge.sibling
+        else
+          break
+        end
+      end
       raise "NO SUCH ROUTE"
     end
 
@@ -56,7 +62,7 @@ module RailroadGraph
         len += distance_between(memo, item)
         memo = item
       end
-      return len  
+      return len
     end
 
     # use Depth-First-Search to find all routes
@@ -82,23 +88,10 @@ module RailroadGraph
           end
           routes.push route
         elsif curr_edge.to == to
-
-
-        route = curr_edge.clone
-        # If destination matches increment route count, then continue to next node at same depth
-        if curr_edge.to == to
-          route_cnt += 1
-          curr_edge = curr_edge.sibling
-          continue
-        # If destination does not match and has not yet been visited, 
-        # we recursively traverse destination node 
-        elsif !curr_edge.to.visited
-          route_cnt += find_routes(edge.to, to, depth, limit);
-          depth--;
+          puts "abc"
         end
-        curr_edge = curr_edge.sibling
       end
-      # mark the start node as visited as sibling need traverse also 
+      # mark the start node as visited as sibling need traverse also
       from.visited = false
       route_cnt
     end

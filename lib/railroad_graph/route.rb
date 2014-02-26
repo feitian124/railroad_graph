@@ -2,8 +2,8 @@ module RailroadGraph
 
   # route is a sequence of edges
   class Route
-    def initialize(edge)
-      @route = [edge]
+    def initialize
+      @route = []
     end
 
     def push (edge)
@@ -12,10 +12,10 @@ module RailroadGraph
       self
     end
 
-    def check!(route)
-      raise 'route string should only have uppercase letter and at least 2 letters' unless /^[A-Z]{2,}$/ =~ route
-      true
-    end
+   # def check!(route)
+   #   raise 'route string should only have uppercase letter and at least 2 letters' unless /^[A-Z]{2,}$/ =~ route
+   #   true
+   # end
 
     def to_s
       result = ""
