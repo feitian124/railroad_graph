@@ -2,18 +2,8 @@ module RailroadGraph
 
   # route is a sequence of edges
   class Route
-    def initialize(route)
-      @route = []
-      @route += route
-    end
-
-    # return the distance when travel through a sequence of towns
-    def distance
-      dist = 0
-      @route.each do |edge|
-        dist += edge.length
-      end
-      dist
+    def initialize(edge)
+      @route = [edge]
     end
 
     def push (edge)

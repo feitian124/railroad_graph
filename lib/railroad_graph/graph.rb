@@ -59,6 +59,33 @@ module RailroadGraph
       return len  
     end
 
+    def find_routes(from, to, depth, limit)
+      raise "NO SUCH ROUTE" unless has_node?(from) && has_node?(to)
+      # the routes of current recursive stack level, the graph's routes
+      # is determined by the minimum recursive stack levels
+      routes = 0
+      depth += 1
+      return 0 if depth > limit
+      from.visited = true
+      curr_edge = @graph[from]
+      while curr_edge
+        # If destination matches increment route count, then continue to next node at same depth
+        if curr_edge.to == to
+          routes += 1
+          curr_edge = curr_edge.sibling
+          continue
+        # If destination does not match and has not yet been visited, 
+        # we recursively traverse destination node 
+        elsif !curr_edge.to.visited
+          routes += find_routes(edge.to, to, depth, limit);
+          depth--;
+        end
+        curr_edge = curr_edge.sibling
+      end
+      # mark the start node as visited as sibling need traverse also 
+      from.visited = false
+      routes
+    end
 
     # get all nodes of the graph
     def nodes
