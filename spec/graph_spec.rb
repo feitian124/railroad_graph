@@ -63,6 +63,15 @@ describe Graph do
 
   it "get the number of trips given stops limit" do
     graph.find_routes(c, c, 0, 3).should == 2
-    graph.find_routes(a, c, 0, 4).should == 4
+    graph.find_routes(a, c, 4, 4).should == 3
+  end
+
+  it "get the length of shortest routes" do
+    graph.shortest_route(a, c, 0, 0).should == 9
+    graph.shortest_route(b, b, 0, 0).should == 9
+  end
+
+  it "get the num of routes for less than some distance" do
+    graph.routes_within_stops(c, c, 0, 30).should == 7
   end
 end

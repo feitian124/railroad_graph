@@ -83,14 +83,60 @@ module RailroadGraph
         end
         curr_edge = curr_edge.sibling
       end
-
       # mark the start node as visited as sibling need traverse also
       from.visited = false
       return routes
     end
 
-    def route_num_by_stops(from, to, max)
-      find_routes(from, to, 0, max)
+    def shortest_route(from, to, weight, shortest)
+      raise "NO SUCH ROUTE" unless has_node?(from) && has_node?(to)
+      # If start node exists then traverse all possible
+      # routes and for each, check if it is destination
+      from.visited = true
+      curr_edge = first_edge(from)
+      while curr_edge #for all siblings
+        if curr_edge.to == to || !curr_edge.to.visited
+          weight = curr_edge.length
+        end
+        if curr_edge.to == to
+          shortest = weight if shortest == 0 || weight < shortest
+          from.visited = false
+          return shortest
+        elsif !curr_edge.to.visited
+          shortest += shortest_route(curr_edge.to, to, weight, shortest)
+          weight -= curr_edge.length
+        end
+        curr_edge = curr_edge.sibling
+      end
+      # mark the start node as visited as sibling need traverse also
+      from.visited = false
+      return shortest
+    end
+
+    def routes_within_stops(from, to, weight, max)
+      raise "NO SUCH ROUTE" unless has_node?(from) && has_node?(to)
+      # If start node exists then traverse all possible
+      # routes and for each, check if it is destination
+      routes = 0
+      curr_edge = first_edge(from)
+      while curr_edge #for all siblings
+          weight += curr_edge.length
+        if weight < max
+          if curr_edge.to == to
+            routes += 1
+            routes += routes_within_stops(curr_edge.to, to, weight, max)
+            curr_edge = curr_edge.sibling
+            next
+          else
+            routes += routes_within_stops(curr_edge.to, to, weight, max)
+            weight -= curr_edge.length
+          end
+        else
+          weight -= curr_edge.length
+        end
+        curr_edge = curr_edge.sibling
+      end
+      return routes
     end
 
 
