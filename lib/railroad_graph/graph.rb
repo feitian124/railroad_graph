@@ -90,20 +90,18 @@ module RailroadGraph
 
     def shortest_route(from, to, weight, shortest)
       raise "NO SUCH ROUTE" unless has_node?(from) && has_node?(to)
-      # If start node exists then traverse all possible
-      # routes and for each, check if it is destination
       from.visited = true
       curr_edge = first_edge(from)
       while curr_edge #for all siblings
         if curr_edge.to == to || !curr_edge.to.visited
-          weight = curr_edge.length
+          weight += curr_edge.length
         end
         if curr_edge.to == to
           shortest = weight if shortest == 0 || weight < shortest
           from.visited = false
           return shortest
         elsif !curr_edge.to.visited
-          shortest += shortest_route(curr_edge.to, to, weight, shortest)
+          shortest = shortest_route(curr_edge.to, to, weight, shortest)
           weight -= curr_edge.length
         end
         curr_edge = curr_edge.sibling
@@ -115,8 +113,6 @@ module RailroadGraph
 
     def routes_within_stops(from, to, weight, max)
       raise "NO SUCH ROUTE" unless has_node?(from) && has_node?(to)
-      # If start node exists then traverse all possible
-      # routes and for each, check if it is destination
       routes = 0
       curr_edge = first_edge(from)
       while curr_edge #for all siblings
