@@ -20,7 +20,9 @@ describe Node do
       puts a
       puts node
       h = {}
-      h[a] = "abc"
+      ob = Object.new
+      h[a] = ob
       h.has_key?(node).should be_true
+      h[a].should == ob
   end
 end

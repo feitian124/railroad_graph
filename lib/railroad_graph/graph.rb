@@ -24,6 +24,10 @@ module RailroadGraph
       end
     end
 
+    def first_edge(node)
+      @graph[node]
+    end
+
     #search graph find if there are edge between two nodes
     def has_edge_between?(a, b)
       return false unless has_node?(a) && has_node?(b)
@@ -66,34 +70,41 @@ module RailroadGraph
     end
 
     # use Depth-First-Search to find all routes
-    def find_routes(from, to, depth, limit)
+    def find_routes(from, to, depth, limit, route=nil)
       raise "NO SUCH ROUTE" unless has_node?(from) && has_node?(to)
       routes = []
       # the route of current recursive stack level
-      rote = nil
       depth += 1
-      return nil if depth > limit
+      return [] if depth > limit
       from.visited = true
-      curr_edge = @graph[from]
-
-      while curr_edge
-        if route
-          if curr_edge.to == to
+      puts "from:#{from.inspect}"
+      curr_edge = first_edge(from)
+      puts "---------#{curr_edge.inspect}"
+      while curr_edge #for all siblings
+        if curr_edge.to == to #find the route
+          if route
             route.push curr_edge.clone
-            routes.push route
-            return routes
-          elsif @graph[curr_edge.to] && !curr_edge.to.visited
-            find_routes(curr_edge.to, to, depth, limit)
-
+          else
+            route = Route.new.push curr_edge.clone
           end
+          puts "---------#{route}"
           routes.push route
-        elsif curr_edge.to == to
-          puts "abc"
+          continue
+        elsif !curr_edge.to.visited
+          routes += find_routes(curr_edge.to, to, depth, limit, route)
+          depth -= 1
+        end
+
+        if curr_edge.has_sibling?
+          curr_edge = curr_edge.sibling
+        else
+          break
         end
       end
+
       # mark the start node as visited as sibling need traverse also
       from.visited = false
-      route_cnt
+      return routes
     end
 
     # get all nodes of the graph

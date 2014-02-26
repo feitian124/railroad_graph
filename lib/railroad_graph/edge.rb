@@ -18,7 +18,7 @@ module RailroadGraph
     end
 
     def ==(other)
-      @from == other.from && @to == other.to && @length == other.length && @sibling == other.sibling
+      @from == other.from && @to == other.to && @length == other.length #&& @sibling == other.sibling
     end
 
     def to_s

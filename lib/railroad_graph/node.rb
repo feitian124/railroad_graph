@@ -10,7 +10,7 @@ module RailroadGraph
     end
 
     def ==(other)
-      @name == other.name && @visited == other.visited
+      @name == other.name #&& @visited == other.visited
     end
 
     def eql?(other)
@@ -18,7 +18,7 @@ module RailroadGraph
     end
 
     def hash
-      @name.hash ^ @visited.hash
+      @name.hash #^ @visited.hash
     end
 
     def to_s
