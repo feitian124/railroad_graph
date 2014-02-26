@@ -17,8 +17,19 @@ describe Graph do
   end
 
   it "should have nice out put" do
-    #graph.to_s.should include("{", "=>", "}")
+    graph.to_s.should include("[", "]")
     puts graph
   end
 
+  it "can get distance between 2 nodes"
+    graph.distance_between(a, b).should == 5
+    graph.distance_between(d, c).should == 8
+    expect{ graph.distance_between(a, c) }.to raise_error(StandardError, 'NO SUCH ROUTE')
+  end
+
+  it "can get distance for given nodes"
+    graph.distance([a, b, c]).should == 9 
+    graph.distance([b, c, d]).should == 12
+    expect{ graph.distance([a, b, d]) }.to raise_error(StandardError, 'NO SUCH ROUTE')
+  end
 end

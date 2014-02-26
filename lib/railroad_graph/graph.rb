@@ -24,8 +24,49 @@ module RailroadGraph
       end
     end
 
+    #search graph find if there are edge between two nodes
+    #def has_edge_between?(a, b)
+    #  return false unless has_node?(a) && has_node?(b)
+    #  curr_edge = @graph[a]
+    #  loop do
+    #    return true if curr_edge.to == b
+    #    curr_edge = curr_edge.sibling
+    #    break unless curr_edge.has_sibling?
+    #  end 
+    #  false
+    #end
+
+    # get distance between the 2 directly connected nodes
+    def distance_between(a, b)
+      raise "NO SUCH ROUTE" unless has_node?(a) && has_node?(b)
+      curr_edge = @graph[a]
+      loop do
+        return curr_edge.length if curr_edge.to == b
+        curr_edge = curr_edge.sibling
+        break unless curr_edge.has_sibling?
+      end 
+      raise "NO SUCH ROUTE"
+    end
+
+    # get the distance when travel through a sequence of nodes
+    def distance(nodes)
+      return 0 if nodes.size < 2
+      len = 0
+      nodes.each.reduce do |memo, item|
+        len += distance_between(memo, item)
+        memo = item
+      end
+      return len  
+    end
+
+
+    # get all nodes of the graph
     def nodes
       @graph.keys
+    end
+
+    def has_node?(node)
+      @graph.has_key? node
     end
 
     def to_s
